@@ -1,0 +1,9 @@
+data/*
+presentations/*
+figures/*
+data
+presentations
+figures
+.ipynb_checkpoints
+*.ppt
+*.pptx
