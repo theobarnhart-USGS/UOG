@@ -7,3 +7,5 @@ figures
 .ipynb_checkpoints
 *.ppt
 *.pptx
+*.doc
+*.docx
