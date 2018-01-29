@@ -7,39 +7,40 @@
 ############################################################################################
 import numpy as np
 cellsize = "5280" # 1 mile grid
+outdir = "haines_exports_Jan_2018"
 # Replace a layer/table view name with a path to a dataset (which can be a layer file) or create the layer/table view within the script
 # The following inputs are layers or table views: "Treatments\sir2017_ActiveModel_Fishnet_join_trtm_totals_1980"
-for year in np.arange(1980,2017):
+for year in np.arange(1980,2018):
 	print 'Starting Year: %s'%(year)
 	# Well counts
-	arcpy.PolygonToRaster_conversion(in_features="Treatments\sir2017_ActiveModel_Fishnet_join_trtm_totals_%s"%(year),
-	 value_field="Count_", out_rasterdataset="C:/Users/tbarnhart/projects/UOG/data/haines_exports/well_count%s.tif"%(year),
+	arcpy.PolygonToRaster_conversion(in_features="ActiveModel_1mi_Fishnet_Join_WB_TrtmTotal_%s"%(year),
+	 value_field="Count_", out_rasterdataset="C:/Users/tbarnhart/projects/UOG/data/%s/well_count%s.tif"%(outdir,year),
 	  cell_assignment="CELL_CENTER", priority_field="NONE", cellsize=cellsize)
 	print 'Well Count Complete'
 
 	# Frac Water Use
-	key = 'Sum_TOTAL_TRTM'
-	arcpy.PolygonToRaster_conversion(in_features="Treatments\sir2017_ActiveModel_Fishnet_join_trtm_totals_%s"%(year),
-	 value_field=key, out_rasterdataset="C:/Users/tbarnhart/projects/UOG/data/haines_exports/treatment_water_%s.tif"%(year),
+	key = 'Sum_SUMOFTRTM_'
+	arcpy.PolygonToRaster_conversion(in_features="ActiveModel_1mi_Fishnet_Join_WB_TrtmTotal_%s"%(year),
+	 value_field=key, out_rasterdataset="C:/Users/tbarnhart/projects/UOG/data/%s/treatment_water_%s.tif"%(outdir,year),
 	  cell_assignment="CELL_CENTER", priority_field="NONE", cellsize=cellsize)
 	print 'Treatment Water Complete'
 
 	# Oil Production by year
 	key = 'Sum_X%s'%(str(year)[1:]) # generate the correct key
-	arcpy.PolygonToRaster_conversion(in_features="Production\sir2017_Fishnet_join_Oil_Production_Lambert",
-	 value_field=key, out_rasterdataset="C:/Users/tbarnhart/projects/UOG/data/haines_exports/oil_production_%s.tif"%(year),
+	arcpy.PolygonToRaster_conversion(in_features="ActiveModel_Join_Oil_Production",
+	 value_field=key, out_rasterdataset="C:/Users/tbarnhart/projects/UOG/data/%s/oil_production_%s.tif"%(outdir,year),
 	  cell_assignment="CELL_CENTER", priority_field="NONE", cellsize=cellsize)
 	print 'Oil Production Complete'
 
 	# Gas Production by year
-	arcpy.PolygonToRaster_conversion(in_features="Production\sir2017_Fishnet_join_Gas_Production_Lambert",
-	 value_field=key, out_rasterdataset="C:/Users/tbarnhart/projects/UOG/data/haines_exports/gas_production_%s.tif"%(year),
+	arcpy.PolygonToRaster_conversion(in_features="ActiveModel_Join_Gas_Production",
+	 value_field=key, out_rasterdataset="C:/Users/tbarnhart/projects/UOG/data/%s/gas_production_%s.tif"%(outdir,year),
 	  cell_assignment="CELL_CENTER", priority_field="NONE", cellsize=cellsize)
 	print 'Gas Production Complete'
 
-	# Gas Production by year
-	arcpy.PolygonToRaster_conversion(in_features="Production\sir2017_Fishnet_join_Water_Production_Lambert",
-	 value_field=key, out_rasterdataset="C:/Users/tbarnhart/projects/UOG/data/haines_exports/water_production_%s.tif"%(year),
+	# Water Production by year
+	arcpy.PolygonToRaster_conversion(in_features="ActiveModel_Join_Water_Production",
+	 value_field=key, out_rasterdataset="C:/Users/tbarnhart/projects/UOG/data/%s/water_production_%s.tif"%(outdir,year),
 	  cell_assignment="CELL_CENTER", priority_field="NONE", cellsize=cellsize)
 	print 'Water Production Complete'
 	print '*****************************************'
